@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <title>Admin Panel, PetPaw</title>
+    <style>
+      :root { color-scheme: light; --bg: #f5f0e6; --surface: #fffdf8; --text: #1d4a2a; --dim: #5c6b58; --border: #d8cdb8; --forest: #1d4a2a; --leaf: #4c9a4c; --beige: #ede1cb; --sans: system-ui, -apple-system, "Segoe UI", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.5; }
+      a { color: inherit; }
+      .wrap { max-width: 72rem; margin: 0 auto; padding-left: 1rem; padding-right: 1rem; }
+      .site-header { position: sticky; top: 0; z-index: 40; border-bottom: 1px solid var(--border); background: rgba(245, 240, 230, .95); }
+      .header-inner { display: flex; align-items: center; justify-content: space-between; padding: .75rem 1rem; }
+      .logo { font-size: 26px; font-weight: 900; letter-spacing: .02em; text-decoration: none; }
+      .nav-btn { padding: .5rem; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--text); background: none; border: none; cursor: pointer; font-family: inherit; text-decoration: none; }
+      .nav-btn:hover { color: var(--leaf); }
+      h1 { font-size: 2rem; font-weight: 900; text-align: center; margin: 0; }
+      .sub { margin: .5rem 0 0; text-align: center; font-size: 15px; color: var(--dim); }
+      .panel { border: 1px solid var(--border); background: var(--surface); padding: 1.5rem 1.25rem; border-radius: 12px; }
+      .field-label { display: block; margin-bottom: .375rem; font-size: .875rem; font-weight: 700; }
+      .field-input { width: 100%; border: 1px solid var(--border); background: #fff; padding: .75rem 1rem; font-size: 15px; color: var(--text); outline: none; font-family: inherit; border-radius: 8px; }
+      .field-input:focus { border-color: var(--leaf); }
+      .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; background: var(--forest); padding: .75rem 1.5rem; font-size: .875rem; font-weight: 700; letter-spacing: .1em; color: #fff; text-transform: uppercase; border: none; cursor: pointer; font-family: inherit; border-radius: 999px; }
+      .btn-primary:hover { background: var(--leaf); }
+      .btn-block { width: 100%; }
+      .form-error { color: #b3261e; font-size: .875rem; }
+      .admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      .admin-table th, .admin-table td { text-align: left; padding: .625rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+      .admin-table th { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+      .admin-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+      .admin-tab { padding: .625rem 1.25rem; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; background: none; color: var(--text); cursor: pointer; font-family: inherit; }
+      .admin-tab.active { background: var(--forest); border-color: var(--forest); color: #fff; }
+      .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; margin-top: 1.5rem; }
+      @media (min-width: 768px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
+      .stat-card { padding: 1.25rem; text-align: center; }
+      .stat-card .num { font-size: 32px; font-weight: 900; margin: 0; }
+      .stat-card .lbl { margin: .25rem 0 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+      .table-wrap { overflow-x: auto; margin-top: 1rem; }
+      select.field-input { width: auto; padding: .5rem; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a href="/" class="logo">PetPaw</a>
+        <div>
+          <a href="/" class="nav-btn">Shop</a>
+          <button type="button" class="nav-btn" id="sign-out-btn" style="display:none">Sign out</button>
+        </div>
+      </div>
+    </header>
+    <main class="wrap" style="padding-top:2rem;padding-bottom:3rem">
+      <h1>Admin Panel</h1>
+      <p class="sub">Orders, messages and subscribers for PetPaw.</p>
+      <div id="admin-root" style="margin-top:2rem"></div>
+    </main>
+    <script src="/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
+<link rel="icon" href="data:," />
+<title>PetPaw Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#1d4a2a; --forest-deep:#14351e; --leaf:#4c9a4c; --leaf-soft:#dcebd2;
+  --kraft:#ede1cb; --kraft-light:#f7f1e3; --paper:#fbf7ec; --ink:#22301f; --muted:#5c6b58;
+  --line:#ddd2ba; --white:#ffffff; --danger:#b3372a;
+  --shadow:0 10px 30px rgba(29,74,42,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55}
+h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;line-height:1.15;margin:0;color:var(--forest-deep)}
+img{max-width:100%;display:block}
+a{color:var(--forest)}
+button,[role="button"],select,input,textarea{font-family:inherit}
+button,[role="button"],select,summary,input:not([type="checkbox"],[type="radio"]){min-height:2.25rem}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.leafmark{display:inline-block;animation:sway 5s ease-in-out infinite;transform-origin:bottom center}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(5deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes bounceBag{0%{transform:scale(1)}30%{transform:scale(1.45)}60%{transform:scale(.9)}100%{transform:scale(1)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .7s ease both}
+.page{animation:pageIn .45s ease both}
+
+/* Opening animation */
+#intro{position:fixed;inset:0;z-index:999;background:var(--forest-deep);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;text-align:center;padding:24px;transition:opacity .6s ease,visibility .6s}
+#intro.done{opacity:0;visibility:hidden}
+#intro .intro-logo{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,8vw,4rem);display:flex;align-items:center;gap:12px;animation:fadeUp .8s ease both}
+#intro .intro-by{letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;font-weight:800;color:var(--kraft);animation:fadeUp .8s .25s ease both}
+#intro .intro-line{width:180px;height:3px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden}
+#intro .intro-line i{display:block;height:100%;width:0;background:var(--leaf);animation:load 2s ease forwards}
+@keyframes load{to{width:100%}}
+#skipIntro{position:absolute;bottom:28px;right:28px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7);border-radius:99px;padding:10px 22px;font-weight:800;cursor:pointer;min-height:44px}
+#skipIntro:hover{background:rgba(255,255,255,.12)}
+
+/* Header */
+header.site{position:sticky;top:0;z-index:90;background:var(--paper);border-bottom:1px solid var(--line)}
+.header-in{display:flex;align-items:center;gap:18px;padding-top:12px;padding-bottom:12px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--forest);font-family:'DM Serif Display',serif;font-size:1.7rem;line-height:1;min-height:44px}
+.logo .leafmark svg{display:block}
+nav.main{display:flex;gap:4px;margin-left:auto}
+nav.main a{text-decoration:none;color:var(--ink);font-weight:800;padding:10px 14px;border-radius:99px;min-height:44px;display:inline-flex;align-items:center}
+nav.main a:hover,nav.main a.active{background:var(--leaf-soft);color:var(--forest-deep)}
+.header-actions{display:flex;gap:6px;align-items:center}
+.icon-btn{position:relative;background:transparent;border:0;width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--forest-deep)}
+.icon-btn:hover{background:var(--leaf-soft)}
+.bag-count{position:absolute;top:2px;right:0;background:var(--leaf);color:#fff;font-size:.7rem;font-weight:900;min-width:20px;height:20px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.bag-count.bounce{animation:bounceBag .55s ease}
+#menuBtn{display:none}
+
+/* Search panel */
+#searchPanel{display:none;background:var(--kraft-light);border-bottom:1px solid var(--line)}
+#searchPanel.open{display:block;animation:slideDown .4s ease both}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.search-in{padding:18px 0 22px;position:relative}
+.search-box{display:flex;gap:10px}
+.search-box input{flex:1;padding:12px 16px;border:2px solid var(--line);border-radius:14px;font-size:1rem;background:#fff;min-height:48px}
+.search-box input:focus{outline:none;border-color:var(--leaf)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--forest);color:#fff;border:0;border-radius:14px;padding:12px 24px;font-weight:900;font-size:1rem;cursor:pointer;text-decoration:none;min-height:48px;transition:background .2s,transform .2s}
+.btn:hover{background:var(--forest-deep)}
+.btn.leaf{background:var(--leaf)} .btn.leaf:hover{background:var(--forest)}
+.btn.ghost{background:transparent;color:var(--forest);border:2px solid var(--forest)}
+.btn.ghost:hover{background:var(--leaf-soft)}
+.btn.small{padding:9px 16px;min-height:44px;font-size:.92rem;border-radius:11px}
+#suggest{position:absolute;left:20px;right:20px;top:78px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;z-index:95;display:none}
+#suggest.show{display:block}
+.suggest-item{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px;background:#fff;border:0;border-bottom:1px solid #f0e9d8;cursor:pointer;text-align:left;min-height:56px}
+.suggest-item:last-child{border-bottom:0}
+.suggest-item:hover{background:var(--kraft-light)}
+.suggest-item img{width:44px;height:44px;object-fit:cover;border-radius:9px}
+.suggest-item .s-name{font-weight:800;color:var(--ink)}
+.suggest-item .s-price{margin-left:auto;font-weight:900;color:var(--forest);white-space:nowrap}
+
+/* Mobile menu */
+#mobileMenu{position:fixed;top:0;right:0;bottom:0;width:min(320px,85vw);background:var(--paper);z-index:120;box-shadow:-12px 0 32px rgba(0,0,0,.18);transform:translateX(105%);transition:transform .4s ease;padding:22px;display:flex;flex-direction:column;gap:6px}
+#mobileMenu.open{transform:translateX(0)}
+#mobileMenu a{text-decoration:none;color:var(--ink);font-weight:800;padding:13px 12px;border-radius:12px;min-height:48px;display:flex;align-items:center}
+#mobileMenu a:hover{background:var(--leaf-soft)}
+#scrim{position:fixed;inset:0;background:rgba(20,53,30,.45);z-index:110;opacity:0;visibility:hidden;transition:opacity .35s}
+#scrim.show{opacity:1;visibility:visible}
+
+/* Hero */
+.hero{background:linear-gradient(180deg,var(--kraft-light),var(--paper));overflow:hidden}
+.hero-in{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;padding:52px 0 60px}
+.hero-copy .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--leaf-soft);color:var(--forest-deep);font-weight:900;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:99px}
+.hero-copy h1{font-size:clamp(2.3rem,5.4vw,3.7rem);margin:18px 0 14px;animation:fadeUp .8s ease both}
+.hero-copy p{color:var(--muted);font-size:1.12rem;max-width:46ch;animation:fadeUp .8s .12s ease both}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;animation:fadeUp .8s .22s ease both}
+.hero-photo{animation:fadeSlide .9s .15s ease both}
+.hero-photo img{width:100%;height:440px;object-fit:cover;border-radius:26px;box-shadow:var(--shadow)}
+.hero-points{display:flex;gap:22px;flex-wrap:wrap;margin-top:28px;animation:fadeUp .8s .3s ease both}
+.hero-points span{display:inline-flex;gap:8px;align-items:center;font-weight:800;color:var(--forest-deep);font-size:.95rem}
+
+/* Sections */
+section.block{padding:56px 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(1.7rem,3.4vw,2.4rem)}
+.sec-head p{color:var(--muted);margin:6px 0 0}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.cat-card{position:relative;border-radius:22px;overflow:hidden;min-height:300px;display:flex;align-items:flex-end;text-decoration:none;box-shadow:var(--shadow)}
+.cat-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cat-card .cat-body{position:relative;background:linear-gradient(180deg,transparent,rgba(20,53,30,.88) 55%);color:#fff;padding:64px 24px 22px;width:100%}
+.cat-card h3{color:#fff;font-size:1.6rem;margin-bottom:4px}
+.cat-card p{margin:0 0 14px;color:#e6efdd}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .25s ease;animation:fadeUp .6s ease both}
+.card:hover,.card:active{transform:translateY(-6px);box-shadow:var(--shadow)}
+.card img{width:100%;height:200px;object-fit:cover}
+.card .card-body{padding:16px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card .cat-tag{font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--leaf)}
+.card h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.02rem;color:var(--ink);line-height:1.3}
+.card .price{font-weight:900;color:var(--forest);font-size:1.08rem;margin-top:auto}
+.card .card-actions{display:flex;gap:8px;margin-top:8px}
+.card .card-actions .btn{flex:1;padding:10px 8px;font-size:.88rem}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-card{background:var(--kraft-light);border:1px solid var(--line);border-radius:18px;padding:24px}
+.why-card h3{font-size:1.25rem;margin:10px 0 6px}
+.why-card p{color:var(--muted);margin:0}
+
+/* Shop */
+.shop-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.chip{border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:99px;padding:10px 18px;font-weight:800;cursor:pointer;min-height:44px}
+.chip.active{background:var(--forest);border-color:var(--forest);color:#fff}
+.shop-search{flex:1;min-width:220px;display:flex}
+.shop-search input{flex:1;padding:11px 15px;border:2px solid var(--line);border-radius:12px;font-size:1rem;min-height:48px;background:#fff}
+.shop-search input:focus{outline:none;border-color:var(--leaf)}
+.count-line{color:var(--muted);font-weight:700;margin:12px 0 20px}
+.empty-box{background:#fff;border:1px dashed var(--line);border-radius:18px;padding:44px 24px;text-align:center;color:var(--muted)}
+
+/* Breadcrumb */
+.crumb{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.92rem;font-weight:700;color:var(--muted);margin:26px 0 18px}
+.crumb a{color:var(--forest);text-decoration:none;padding:6px 2px}
+.crumb a:hover{text-decoration:underline}
+.back-link{display:inline-flex;align-items:center;gap:7px;font-weight:800;color:var(--forest);text-decoration:none;padding:8px 0;min-height:40px}
+
+/* Product detail */
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-bottom:56px}
+.detail img.main-photo{width:100%;height:480px;object-fit:cover;border-radius:22px;box-shadow:var(--shadow)}
+.detail h1{font-size:clamp(1.9rem,4vw,2.7rem);margin:8px 0 10px}
+.detail .d-price{font-size:1.6rem;font-weight:900;color:var(--forest)}
+.detail .d-desc{color:var(--muted);font-size:1.05rem}
+.detail ul.points{list-style:none;padding:0;margin:18px 0;display:grid;gap:9px}
+.detail ul.points li{display:flex;gap:10px;align-items:flex-start;font-weight:700}
+.detail ul.points li svg{flex:none;margin-top:3px}
+.qty-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.qty-ctrl{display:inline-flex;align-items:center;border:2px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.qty-ctrl button{width:44px;height:48px;border:0;background:#fff;font-size:1.2rem;font-weight:900;cursor:pointer;color:var(--forest)}
+.qty-ctrl output{min-width:44px;text-align:center;font-weight:900;font-size:1.05rem}
+
+/* Cart */
+.cart-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:26px;align-items:start;padding-bottom:56px}
+.cart-line{display:flex;gap:16px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px;align-items:center}
+.cart-line img{width:92px;height:92px;object-fit:cover;border-radius:12px;flex:none}
+.cart-line h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem}
+.cart-line .l-price{color:var(--forest);font-weight:900}
+.summary{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.summary h3{font-size:1.3rem;margin-bottom:14px}
+.sum-row{display:flex;justify-content:space-between;font-weight:800;padding:8px 0;border-bottom:1px solid #f0e9d8}
+.sum-row.total{border-bottom:0;font-size:1.15rem;color:var(--forest-deep)}
+.remove-btn{background:transparent;border:0;color:var(--danger);font-weight:800;cursor:pointer;padding:10px;min-height:44px}
+
+/* Forms */
+form .field{margin-bottom:16px}
+form label{display:block;font-weight:800;margin-bottom:6px}
+form input[type="text"],form input[type="email"],form input[type="tel"],form textarea,form select{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:12px;font-size:1rem;background:#fff;min-height:48px}
+form textarea{min-height:130px;resize:vertical}
+form input:focus,form textarea:focus{outline:none;border-color:var(--leaf)}
+.err{color:var(--danger);font-size:.88rem;font-weight:700;margin-top:5px;display:none}
+.err.show{display:block}
+.radio-card{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;cursor:pointer;background:#fff}
+.radio-card input{width:20px;height:20px;margin-top:3px;accent-color:var(--forest)}
+.radio-card strong{display:block}
+.radio-card small{color:var(--muted)}
+.success-box{background:var(--leaf-soft);border:1px solid var(--leaf);border-radius:18px;padding:28px;text-align:center}
+.success-box h2{margin-bottom:8px}
+.newsletter{background:var(--forest);border-radius:24px;padding:38px 30px;color:#fff;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+.newsletter h2{color:#fff;font-size:1.8rem}
+.newsletter p{color:#d9e8cf;margin:8px 0 0}
+.newsletter form{display:flex;gap:10px}
+.newsletter input{flex:1;border-radius:12px;border:0;padding:12px 14px;font-size:1rem;min-height:50px}
+.newsletter .ok{color:#cdeabd;font-weight:800;margin-top:10px;display:none}
+.newsletter .ok.show{display:block}
+
+/* Footer */
+footer.site{background:var(--forest-deep);color:#dcebd2;margin-top:0}
+.footer-in{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px;padding:46px 0 30px}
+footer.site h4{color:#fff;font-family:'DM Serif Display',serif;font-weight:400;font-size:1.2rem;margin:0 0 12px}
+footer.site a{color:#dcebd2;text-decoration:none;display:block;padding:6px 0;min-height:36px}
+footer.site a:hover{color:#fff;text-decoration:underline}
+.footer-brand .logo{color:#fff}
+.footer-strip{border-top:1px solid rgba(255,255,255,.18);padding:16px 0;text-align:center;font-weight:800;letter-spacing:.06em;color:var(--kraft)}
+
+/* Toast */
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,90px);background:var(--forest-deep);color:#fff;padding:14px 22px;border-radius:99px;font-weight:800;z-index:150;transition:transform .4s ease,opacity .4s ease,visibility .4s;box-shadow:var(--shadow);max-width:92vw;text-align:center;opacity:0;visibility:hidden;pointer-events:none}
+#toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
+
+/* Error boundary */
+#fatal{display:none;position:fixed;inset:0;z-index:300;background:var(--kraft-light);align-items:center;justify-content:center;padding:24px;text-align:center}
+#fatal.show{display:flex}
+
+.page-head{padding:38px 0 6px}
+.page-head h1{font-size:clamp(2rem,4.6vw,3rem)}
+.page-head p{color:var(--muted);max-width:62ch}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:26px;padding-bottom:56px;align-items:start}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:16px}
+.info-card h3{font-size:1.2rem;margin-bottom:6px}
+.info-card p{margin:0;color:var(--muted)}
+.not-provided{font-weight:800;color:var(--ink)}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .grid.cols-3{grid-template-columns:repeat(2,1fr)}
+  .hero-in{grid-template-columns:1fr;gap:26px;padding:36px 0 44px}
+  .hero-photo img{height:320px}
+  .detail{grid-template-columns:1fr;gap:22px}
+  .detail img.main-photo{height:340px}
+  .cart-layout{grid-template-columns:1fr}
+  .newsletter{grid-template-columns:1fr}
+  .footer-in{grid-template-columns:1fr 1fr}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  nav.main{display:none}
+  #menuBtn{display:inline-flex}
+  .cat-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .grid,.grid.cols-3{grid-template-columns:1fr 1fr;gap:14px}
+  .card img{height:150px}
+  .card .card-actions{flex-direction:column}
+  .footer-in{grid-template-columns:1fr}
+  .newsletter form{flex-direction:column}
+  .cart-line{flex-wrap:wrap}
+}
+@media (max-width:400px){
+  .grid,.grid.cols-3{grid-template-columns:1fr}
+  .card img{height:190px}
+}
+</style>
+</head>
+<body>
+
+<div id="fatal"><div>
+  <h2>Something went wrong opening PetPaw</h2>
+  <p>Please try again. Your bag and pages are safe.</p>
+  <button class="btn" onclick="location.reload()">Open PetPaw again</button>
+</div></div>
+
+<div id="intro" role="dialog" aria-label="Welcome to PetPaw">
+  <div class="intro-logo"><span class="leafmark" id="introLeaf"></span>PetPaw</div>
+  <div class="intro-by">by Interlinkz</div>
+  <div class="intro-line"><i></i></div>
+  <button id="skipIntro" type="button">Skip intro</button>
+</div>
+
+<header class="site">
+  <div class="wrap header-in">
+    <a class="logo" href="/" data-nav="/"><span class="leafmark" data-leaf></span>PetPaw</a>
+    <nav class="main" aria-label="Main">
+      <a href="/" data-nav="/">Home</a>
+      <a href="/shop" data-nav="/shop">Shop</a>
+      <a href="/about" data-nav="/about">About</a>
+      <a href="/contact" data-nav="/contact">Contact</a>
+    </nav>
+    <div class="header-actions" style="margin-left:auto">
+      <button class="icon-btn" id="searchBtn" type="button" aria-label="Search products"></button>
+      <button class="icon-btn" id="bagBtn" type="button" aria-label="Open shopping bag"></button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu"></button>
+    </div>
+  </div>
+  <div id="searchPanel">
+    <div class="wrap search-in">
+      <form class="search-box" id="searchForm">
+        <input type="search" id="searchInput" placeholder="Search food, toys, beds and more" aria-label="Search products" autocomplete="off">
+        <button class="btn leaf" type="submit">Search</button>
+      </form>
+      <div id="suggest" role="listbox" aria-label="Search suggestions"></div>
+    </div>
+  </div>
+</header>
+
+<div id="scrim"></div>
+<aside id="mobileMenu" aria-label="Mobile menu">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <span class="logo" style="font-size:1.4rem"><span class="leafmark" data-leaf></span>PetPaw</span>
+    <button class="icon-btn" id="menuClose" type="button" aria-label="Close menu" style="font-size:1.3rem;font-weight:900">×</button>
+  </div>
+  <a href="/" data-nav="/">Home</a>
+  <a href="/shop" data-nav="/shop">Shop</a>
+  <a href="/category/pet-food" data-nav="/category/pet-food">Pet Food</a>
+  <a href="/category/pet-accessories" data-nav="/category/pet-accessories">Pet Accessories</a>
+  <a href="/about" data-nav="/about">About</a>
+  <a href="/contact" data-nav="/contact">Contact</a>
+  <a href="/cart" data-nav="/cart">Shopping Bag</a>
+</aside>
+
+<main id="app"></main>
+
+<footer class="site">
+  <div class="wrap footer-in">
+    <div class="footer-brand">
+      <span class="logo"><span class="leafmark" data-leaf-light></span>PetPaw</span>
+      <p style="margin:12px 0 0;max-width:36ch">Natural goodness for your best friend. PetPaw is a pet food and accessories shop by Interlinkz, with honest products for dogs and cats.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a href="/shop" data-nav="/shop">All Products</a>
+      <a href="/category/pet-food" data-nav="/category/pet-food">Pet Food</a>
+      <a href="/category/pet-accessories" data-nav="/category/pet-accessories">Pet Accessories</a>
+      <a href="/cart" data-nav="/cart">Shopping Bag</a>
+    </div>
+    <div>
+      <h4>PetPaw</h4>
+      <a href="/about" data-nav="/about">About Us</a>
+      <a href="/contact" data-nav="/contact">Contact</a>
+      <a href="/admin.html" id="footer-admin-link">Admin Panel</a>
+      <a href="/" data-nav="/">Home</a>
+    </div>
+  </div>
+  <div class="footer-strip">PetPaw by Interlinkz</div>
+</footer>
+
+<div id="toast" role="status"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
